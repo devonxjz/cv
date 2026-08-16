@@ -502,6 +502,13 @@ button:focus-visible {
   padding: 0.85rem 1rem;
 }
 
+.project-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
 .project-badge {
   display: inline-flex;
   align-items: center;
@@ -513,6 +520,14 @@ button:focus-visible {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
+}
+
+.project-period {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--muted);
+  padding-left: 0.15rem;
 }
 
 .project-repository {

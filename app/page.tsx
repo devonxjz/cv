@@ -55,6 +55,7 @@ const projects = [
   {
     title: "PhongVu AI Sales Agent",
     kind: "Agentic commerce",
+    period: "07/2026 - 08/2026",
     image: "/projects/phongvu-sales-agent.webp",
     imageAlt: "PhongVu commerce banner used by the PhongVu AI Sales Agent",
     imageClassName: "project-image-contain",
@@ -63,6 +64,7 @@ const projects = [
   {
     title: "CV-Agent",
     kind: "AI application",
+    period: "03/2025 - 05/2025",
     image: "/projects/cv-agent.png",
     imageAlt: "CV-Agent repository preview",
     imageClassName: "",
@@ -71,6 +73,7 @@ const projects = [
   {
     title: "MissLost",
     kind: "Campus platform",
+    period: "09/2025 - 12/2025",
     image: "/projects/misslost.png",
     imageAlt: "MissLost repository preview",
     imageClassName: "",
@@ -79,6 +82,7 @@ const projects = [
   {
     title: "VibeTDU",
     kind: "Interactive learning",
+    period: "09/2025 - 10/2026",
     image: "/projects/vibetdu-live.png",
     imageAlt: "VibeTDU interactive virtual chemistry laboratory",
     imageClassName: "",
@@ -87,6 +91,7 @@ const projects = [
   {
     title: "WeatherForecast AI",
     kind: "ML system",
+    period: "04/2025 - 07/2025",
     image: "/projects/weather-ai.png",
     imageAlt: "WeatherForecast AI repository preview",
     imageClassName: "",
@@ -114,7 +119,7 @@ const journey = [
     icon: "education" as const,
   },
   {
-    period: "2026",
+    period: "07/2026",
     title: "Agentic AI Build Week 2026",
     text: "Participated in GenAI Fund's Agentic AI Build Week in Ho Chi Minh City, collaborating on practical AI agent development.",
     icon: "community" as const,
@@ -184,7 +189,7 @@ export default function Home() {
 
       <nav className="navigation" aria-label="Primary navigation">
         <a className="monogram" href="#profile" aria-label="Trần Lê Thái home">
-          TLT<span>.</span>
+          Devonxjz<span>.</span>
         </a>
         <div className="nav-links">
           <a href="#work">Work</a>
@@ -281,7 +286,10 @@ export default function Home() {
                   />
                 </ImageReveal>
                 <div className="project-card-caption">
-                  <span className="project-badge">{project.title}</span>
+                  <div className="project-meta">
+                    <span className="project-badge">{project.title}</span>
+                    <span className="project-period">{project.period}</span>
+                  </div>
                   <span className="project-repository">
                     {project.kind}
                     <ArrowUpRight size={16} weight="bold" />
@@ -319,10 +327,10 @@ export default function Home() {
       </section>
 
       <footer id="contact" className="footer">
-        <div className="footer-mark" aria-hidden="true">TLT</div>
+        <div className="footer-mark" aria-hidden="true">Devonxjz</div>
         <div className="footer-content content-wrap">
           <Reveal>
-            <h2>Let&apos;s build something reliable.</h2>
+            <h2>Let&apos;s build something stuff with me.</h2>
             <p>Open to internships, collaborative projects and early-career engineering roles.</p>
           </Reveal>
           <div className="footer-bottom">
@@ -336,7 +344,6 @@ export default function Home() {
                 <span><EnvelopeSimple size={18} weight="bold" /> Email available on request</span>
               )}
               <span><MapPin size={18} weight="bold" /> Ho Chi Minh City, Vietnam</span>
-              <span>© 2026 Trần Lê Thái</span>
             </div>
           </div>
         </div>

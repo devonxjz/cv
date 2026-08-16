@@ -48,8 +48,8 @@ def paragraph(
     y: float,
     width: float,
     font: str = "Lato",
-    size: float = 8.5,
-    leading: float = 11.2,
+    size: float = 13,
+    leading: float = 16,
     color=MUTED,
 ) -> float:
     pdf.setFillColor(color)
@@ -62,26 +62,74 @@ def paragraph(
 
 def section_title(pdf: canvas.Canvas, text: str, x: float, y: float, width: float) -> float:
     pdf.setFillColor(INK)
-    pdf.setFont("Lato-Black", 10.2)
+    pdf.setFont("Lato-Black", 14)
     pdf.drawString(x, y, text)
     pdf.setStrokeColor(ACCENT)
     pdf.setLineWidth(2)
     pdf.line(x, y - 5, x + width, y - 5)
-    return y - 18
+    return y - 22
 
 
 def bullet(pdf: canvas.Canvas, text: str, x: float, y: float, width: float) -> float:
     pdf.setFillColor(ACCENT)
-    pdf.circle(x + 2.2, y - 2.2, 1.5, stroke=0, fill=1)
-    return paragraph(pdf, text, x + 10, y, width - 10, size=8.15, leading=10.5)
+    pdf.circle(x + 3, y - 3, 2, stroke=0, fill=1)
+    return paragraph(pdf, text, x + 12, y, width - 12, size=13, leading=16)
 
 
 def label_value(pdf: canvas.Canvas, label: str, value: str, x: float, y: float, width: float) -> float:
     pdf.setFillColor(MUTED)
-    pdf.setFont("Lato-Medium", 6.8)
+    pdf.setFont("Lato-Medium", 13)
     pdf.drawString(x, y, label.upper())
-    y -= 10
-    return paragraph(pdf, value, x, y, width, font="Lato-Semibold", size=8.4, leading=10.8, color=INK) - 5
+    y -= 15
+    return paragraph(pdf, value, x, y, width, font="Lato-Semibold", size=13, leading=16, color=INK) - 6
+
+
+def draw_github_icon(pdf: canvas.Canvas, x: float, y: float, size: float = 18) -> None:
+    pdf.saveState()
+    pdf.setFillColor(INK)
+    pdf.roundRect(x, y, size, size, 4, stroke=0, fill=1)
+
+    cx = x + size / 2
+    face_y = y + size * 0.5
+    pdf.setFillColor(HexColor("#FFFFFF"))
+    pdf.circle(cx, face_y, size * 0.31, stroke=0, fill=1)
+
+    left_ear = pdf.beginPath()
+    left_ear.moveTo(x + size * 0.28, y + size * 0.66)
+    left_ear.lineTo(x + size * 0.33, y + size * 0.86)
+    left_ear.lineTo(x + size * 0.47, y + size * 0.7)
+    left_ear.close()
+    pdf.drawPath(left_ear, stroke=0, fill=1)
+
+    right_ear = pdf.beginPath()
+    right_ear.moveTo(x + size * 0.72, y + size * 0.66)
+    right_ear.lineTo(x + size * 0.67, y + size * 0.86)
+    right_ear.lineTo(x + size * 0.53, y + size * 0.7)
+    right_ear.close()
+    pdf.drawPath(right_ear, stroke=0, fill=1)
+
+    pdf.setFillColor(INK)
+    pdf.circle(x + size * 0.4, y + size * 0.5, size * 0.035, stroke=0, fill=1)
+    pdf.circle(x + size * 0.6, y + size * 0.5, size * 0.035, stroke=0, fill=1)
+
+    pdf.setFillColor(HexColor("#FFFFFF"))
+    pdf.roundRect(x + size * 0.38, y + size * 0.14, size * 0.1, size * 0.21, 1.5, stroke=0, fill=1)
+    pdf.roundRect(x + size * 0.52, y + size * 0.14, size * 0.1, size * 0.21, 1.5, stroke=0, fill=1)
+    pdf.restoreState()
+
+
+def draw_linkedin_icon(pdf: canvas.Canvas, x: float, y: float, size: float = 18) -> None:
+    pdf.saveState()
+    pdf.setFillColor(HexColor("#0A66C2"))
+    pdf.roundRect(x, y, size, size, 4, stroke=0, fill=1)
+
+    pdf.setFillColor(HexColor("#FFFFFF"))
+    pdf.circle(x + size * 0.3, y + size * 0.73, size * 0.075, stroke=0, fill=1)
+    pdf.roundRect(x + size * 0.22, y + size * 0.24, size * 0.16, size * 0.36, 1.2, stroke=0, fill=1)
+    pdf.roundRect(x + size * 0.46, y + size * 0.24, size * 0.16, size * 0.38, 1.2, stroke=0, fill=1)
+    pdf.roundRect(x + size * 0.59, y + size * 0.39, size * 0.17, size * 0.24, 1.5, stroke=0, fill=1)
+    pdf.roundRect(x + size * 0.68, y + size * 0.24, size * 0.08, size * 0.28, 1.1, stroke=0, fill=1)
+    pdf.restoreState()
 
 
 def make_resume() -> None:
@@ -90,7 +138,7 @@ def make_resume() -> None:
 
     width, height = A4
     pdf = canvas.Canvas(str(OUTPUT), pagesize=A4)
-    pdf.setTitle("Trần Lê Thái - Backend, AI and Security Engineer")
+    pdf.setTitle("Trần Lê Thái - AI Engineering Intern and Backend Developer")
     pdf.setAuthor("Trần Lê Thái")
     pdf.setSubject("Curriculum Vitae")
     pdf.setFillColor(PAPER)
@@ -105,97 +153,119 @@ def make_resume() -> None:
     pdf.rect(width - 45, header_y - 2, 11, 25, stroke=0, fill=1)
 
     pdf.setFillColor(INK)
-    pdf.setFont("Lato-Semibold", 9.6)
-    pdf.drawString(margin, header_y - 20, "BACKEND ENGINEER / AI ENGINEER / SECURITY-MINDED DEVELOPER")
-    pdf.setFillColor(MUTED)
-    pdf.setFont("Lato", 7.4)
-    pdf.drawString(margin, header_y - 36, "Ho Chi Minh City, Vietnam")
-    pdf.drawString(margin + 108, header_y - 36, "tranlethai11102006@gmail.com")
-    pdf.drawString(margin + 265, header_y - 36, "github.com/devonxjz")
-    pdf.drawString(margin + 380, header_y - 36, "linkedin.com/in/devonxjz")
+    pdf.setFont("Lato-Semibold", 14)
+    pdf.drawString(margin, header_y - 22, "AI ENGINEERING INTERN / BACKEND DEVELOPER")
 
-    top = header_y - 64
+    y_links = header_y - 48
+
+    gh_x = margin
+    icon_y = y_links - 3
+    icon_size = 18
+    draw_github_icon(pdf, gh_x, icon_y, icon_size)
+
+    gh_text_x = gh_x + 25
+    pdf.setFillColor(INK)
+    pdf.setFont("Lato-Semibold", 13)
+    gh_url_text = "devonxjz"
+    pdf.drawString(gh_text_x, y_links, gh_url_text)
+    gh_w = pdfmetrics.stringWidth(gh_url_text, "Lato-Semibold", 13)
+    pdf.linkURL("https://github.com/devonxjz", (gh_x, icon_y, gh_text_x + gh_w, icon_y + icon_size), relative=0)
+
+    li_x = gh_text_x + gh_w + 24
+    draw_linkedin_icon(pdf, li_x, icon_y, icon_size)
+
+    li_text_x = li_x + 25
+    pdf.setFillColor(INK)
+    pdf.setFont("Lato-Semibold", 13)
+    li_url_text = "devonxjz"
+    pdf.drawString(li_text_x, y_links, li_url_text)
+    li_w = pdfmetrics.stringWidth(li_url_text, "Lato-Semibold", 13)
+    pdf.linkURL("https://www.linkedin.com/in/devonxjz", (li_x, icon_y, li_text_x + li_w, icon_y + icon_size), relative=0)
+
+    top = header_y - 70
     left_x = margin
-    left_w = 337
-    right_x = 397
+    left_w = 164
+    right_x = 224
     right_w = width - right_x - margin
 
     pdf.setStrokeColor(LINE)
     pdf.setLineWidth(0.7)
     pdf.line(right_x - 18, 40, right_x - 18, top + 14)
 
-    left_y = section_title(pdf, "PROFILE", left_x, top, left_w)
-    left_y = paragraph(
+    right_y = section_title(pdf, "PROFILE", right_x, top, right_w)
+    right_y = paragraph(
         pdf,
-        "Information Technology student at HCMUTE building reliable backend services and practical AI systems. I focus on clear tool boundaries, controlled execution, useful memory, observable workflows and secure-by-design behavior.",
-        left_x,
-        left_y,
-        left_w,
-        size=8.8,
-        leading=11.6,
+        "Information Technology student at HCMUTE pursuing an AI Engineering Internship. I design and ship LLM-powered agents — spanning prompt/context engineering, tool-use orchestration, structured outputs, and workflow evaluation — backed by reliable, secure-by-design APIs.",
+        right_x,
+        right_y,
+        right_w,
+        size=13,
+        leading=16,
     ) - 15
 
-    left_y = section_title(pdf, "SELECTED PROJECTS", left_x, left_y, left_w)
+    right_y = section_title(pdf, "SELECTED PROJECTS", right_x, right_y, right_w)
     projects = [
         (
-            "CV-Agent",
-            "AI resume analysis and optimization platform using Google Gemini, Express, MongoDB and React.",
+            "PhongVu AI Sales Agent",
+            "07/2026 - 08/2026",
+            "Role: AI Agent Developer. Built a sales assistant flow for product discovery, requirement collection and structured purchase guidance using LLM orchestration with commerce data. Designed the conversation flow to clarify customer needs, use product information and return consistent recommendations.",
         ),
         (
-            "MissLost",
-            "UEH lost-and-found platform with real-time chat, verified returns, NestJS, Next.js and PostgreSQL.",
+            "CV-Agent",
+            "03/2025 - 05/2025",
+            "Role: Full-stack AI Developer. Built a resume analysis and optimization platform with Google Gemini, Express, MongoDB and React, returning scored feedback and actionable rewrite suggestions. Connected resume processing, AI evaluation and a responsive interface into one practical workflow for improving applications.",
         ),
         (
             "VibeTDU",
-            "Interactive virtual chemistry lab built with Spring Boot, Next.js, Gemini integration and Zustand.",
-        ),
-        (
-            "WeatherForecast AI",
-            "ML prediction, alerts, analytics, maps and chatbot support using Spring, TensorFlow, Redis and PostgreSQL.",
+            "9/2025 - 10/2026",
+            "Role: Backend and AI Integration Developer. Built an interactive virtual chemistry lab with Spring Boot, Next.js and Gemini support for guided experiments and learning feedback. Integrated experiment flows, backend APIs and AI-assisted explanations to make lab activities more interactive and easier to follow.",
         ),
     ]
-    for title, body in projects:
+    for title, period, body in projects:
         pdf.setFillColor(INK)
-        pdf.setFont("Lato-Semibold", 9.1)
-        pdf.drawString(left_x, left_y, title)
-        left_y -= 12
-        left_y = paragraph(pdf, body, left_x, left_y, left_w, size=8.1, leading=10.4) - 7
+        pdf.setFont("Lato-Semibold", 14)
+        pdf.drawString(right_x, right_y, title)
+        pdf.setFillColor(MUTED)
+        pdf.setFont("Lato", 13)
+        pdf.drawRightString(right_x + right_w, right_y, period)
+        right_y -= 18
+        right_y = paragraph(pdf, body, right_x, right_y, right_w, size=13, leading=16) - 10
 
-    left_y = section_title(pdf, "ENGINEERING EXPERIENCE", left_x, left_y + 1, left_w) - 2
+    right_y = section_title(pdf, "ENGINEERING EXPERIENCE", right_x, right_y, right_w)
     experience = [
-        "Designing REST APIs, service layers and persistence around maintainability and debugging.",
-        "Building agentic workflows that select tools, call external services and return structured results.",
-        "Exploring memory, state management, prompt design, guardrails, evaluation and observability.",
+        "Designing backend APIs, service layers and data models that support real AI product workflows.",
+        "Building LLM workflows that call tools, use external services and return structured results.",
+        "Exploring prompt design, memory, guardrails, evaluation and observability for practical AI systems.",
         "Practicing web security and vulnerability analysis through Burp Suite and hands-on labs.",
     ]
     for item in experience:
-        left_y = bullet(pdf, item, left_x, left_y, left_w) - 3
+        right_y = bullet(pdf, item, right_x, right_y, right_w) - 4
 
-    right_y = section_title(pdf, "EDUCATION", right_x, top, right_w)
-    right_y = label_value(pdf, "2024-Present", "HCMUTE\nInformation Technology", right_x, right_y, right_w)
-    right_y = paragraph(pdf, "Focus: Backend Engineering and Information Security", right_x, right_y, right_w, size=7.8, leading=10) - 8
-    right_y = label_value(pdf, "2021-2024", "Hung Vuong High School for the Gifted\nSpecialized in Informatics", right_x, right_y, right_w)
+    left_y = section_title(pdf, "EDUCATION", left_x, top, left_w)
+    left_y = label_value(pdf, "09/2024 - Present", "HCMUTE\nInformation Technology", left_x, left_y, left_w)
+    left_y = paragraph(pdf, "Focus: Backend Engineering & Security", left_x, left_y, left_w, size=13, leading=16) - 10
+    left_y = label_value(pdf, "09/2021 - 06/2024", "Hung Vuong High School\nSpecialized in Informatics", left_x, left_y, left_w)
 
-    right_y = section_title(pdf, "HIGHLIGHTS", right_x, right_y - 3, right_w)
-    right_y = label_value(pdf, "2023", "Third Prize in School Science and Engineering", right_x, right_y, right_w)
-    right_y = label_value(pdf, "ASEAN", "AABW AI Agent Build Competition participant", right_x, right_y, right_w)
+    left_y = section_title(pdf, "HIGHLIGHTS", left_x, left_y - 5, left_w)
+    left_y = label_value(pdf, "2023", "Third Prize Science & Engineering", left_x, left_y, left_w)
+    left_y = label_value(pdf, "07/2026", "AABW AI Agent Build Competition", left_x, left_y, left_w)
 
-    right_y = section_title(pdf, "TECHNICAL SKILLS", right_x, right_y - 2, right_w)
+    left_y = section_title(pdf, "TECHNICAL SKILLS", left_x, left_y - 5, left_w)
     skills = [
-        ("Languages", "Java, Python, JavaScript, TypeScript, C, C++"),
-        ("Backend", "Spring, NestJS, Node.js, REST APIs"),
-        ("Data", "PostgreSQL, MongoDB, MySQL, SQL/NoSQL modeling"),
-        ("AI", "Agent workflows, tool calling, memory, guardrails, evaluation"),
-        ("Security", "Burp Suite, TryHackMe, Hack The Box, Root-Me"),
-        ("Tools", "Git, GitHub, Docker, Vercel"),
+        ("Languages", "Java, Python, JS, TS, C, C++"),
+        ("Backend", "Spring Boot, NestJS, Node.js"),
+        ("Database", "PostgreSQL, MongoDB, MySQL"),
+        ("AI", "LLMs, Agents, Tools, Guardrails"),
+        ("Security", "Burp Suite, TryHackMe"),
+        ("Tools", "Git, Docker, Vercel"),
     ]
     for label, value in skills:
-        right_y = label_value(pdf, label, value, right_x, right_y, right_w)
+        left_y = label_value(pdf, label, value, left_x, left_y, left_w)
 
     pdf.setFillColor(MUTED)
-    pdf.setFont("Lato", 6.8)
-    pdf.drawString(margin, 22, "Contact: tranlethai11102006@gmail.com")
-    pdf.drawRightString(width - margin, 22, "Updated August 2026")
+    pdf.setFont("Lato", 11)
+    pdf.drawString(margin, 20, "Contact: tranlethai11102006@gmail.com")
+    pdf.drawRightString(width - margin, 20, "Ho Chi Minh City")
 
     pdf.showPage()
     pdf.save()
