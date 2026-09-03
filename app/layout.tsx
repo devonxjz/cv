@@ -31,6 +31,11 @@ export const metadata: Metadata = {
     description: "Reliable backends, controlled agents and security-aware execution.",
     images: ["/og.png"],
   },
+  verification: {
+    other: {
+      "zalo-platform-site-verification": "ClIcDkFA3H5Wk9Oouwi3EpQrsJZQmmDkCp8q",
+    },
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
