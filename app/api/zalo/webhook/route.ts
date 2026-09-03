@@ -42,7 +42,24 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  return NextResponse.json({
-    status: 'Zalo webhook proxy is running',
-  });
+  return new NextResponse(
+    `<!doctype html>
+    <html lang="vi">
+      <head>
+        <meta
+          name="zalo-platform-site-verification"
+          content="ClIcDkFA3H5Wk9Oouwi3EpQrsJZQmmDkCp8q"
+        />
+        <title>Zalo Webhook</title>
+      </head>
+      <body>Zalo webhook is running.</body>
+    </html>`,
+    {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-store',
+      },
+    }
+  );
 }
